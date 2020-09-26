@@ -7,6 +7,7 @@ export default class User {
   phoneNumber: string;
   isPhoneNumberVerifier: boolean;
   country: string;
+  userToken?: string;
 
   constructor(email: string, firstName: string, lastName: string, birthDate: string, phoneNumber: string, isPhoneNumberVerifier: boolean, country: string) {
     this.email = email;
@@ -16,6 +17,10 @@ export default class User {
     this.phoneNumber = phoneNumber;
     this.isPhoneNumberVerifier = isPhoneNumberVerifier;
     this.country = country;
+  }
+
+  setUserToken(token: string) {
+    this.userToken = token;
   }
 
 }
