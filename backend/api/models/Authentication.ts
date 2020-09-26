@@ -21,7 +21,7 @@ export default class Authentication {
           'lastName': user.lastName,
           'birthDate': user.birthDate,
           'phoneNumber': user.phoneNumber,
-          'isPhoneNumberVerified': user.isPhoneNumberVerifier,
+          'isPhoneNumberVerified': user.isPhoneNumberVerified,
           'country': user.country
         },
         json: true
@@ -47,8 +47,53 @@ export default class Authentication {
 
   }
 
-  static signIn = async (user: User): Promise<void> => {
-    Authentication.isUserSignedIn = true;
+  static signIn = async (email: string, phoneNumber: string): Promise<User> => {
+
+    try {
+
+      const options = {
+        method: 'POST',
+        uri: 'https://staging.api.external.thegoodseat.fr/loginuser',
+        headers: {
+          'x-api-key': '8k5jqE35yN3yVUaxFP824FOq8oJeLyr3bVyiZmig'
+        },
+        body: {
+          'email': email,
+          'phoneNumber': phoneNumber,
+        },
+        json: true
+      }
+
+      const result = await rp(options);
+
+      if (result.body.token) {
+
+        //TODO: should find a better way than set my personal birthDate in case API doesn't provide it... --'
+        const user = new User(
+          result.body.userInfo.email,
+          result.body.userInfo.firstname,
+          result.body.userInfo.lastname,
+          '21/02/1992',
+          result.body.userInfo.phonenumber,
+          true,
+          result.body.userInfo.country
+        )
+
+        user.setUserToken(result.body.token);
+        Authentication.isUserSignedIn = true;
+        return user;
+      } else {
+        Authentication.isUserSignedIn = false;
+
+        //TODO: same thing in here : bad practice (throw/catch locally)
+        throw new Error('No user token present');
+      }
+
+    } catch(error) {
+      Authentication.isUserSignedIn = false;
+      throw new Error('Issue during user sign in : ' + error.message);
+    }
+
   }
 
 }

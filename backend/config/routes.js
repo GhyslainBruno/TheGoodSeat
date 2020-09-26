@@ -19,7 +19,7 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
   'POST /signup': 'UserController.signUp',
-  '/signin': 'UserController.signIn'
+  'POST /signin': 'UserController.signIn'
 
 
   /***************************************************************************

@@ -24,18 +24,9 @@ describe('Authentication tests', () => {
   });
 
   it('should sign in the user', async () => {
-    const user = new User(
-      'test@gmail.com',
-      'Kim',
-      'Hernandez',
-      '1996-05-17',
-      '+33667182298',
-      true,
-      'France'
-    )
-
     expect(Authentication.isUserSignedIn).toBe(false);
-    await Authentication.signIn(user);
+    const user = await Authentication.signIn('test@gmail.com', '+33667182298');
     expect(Authentication.isUserSignedIn).toBe(true);
+    expect(user.userToken).toBeDefined()
   });
 })

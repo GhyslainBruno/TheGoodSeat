@@ -4,21 +4,22 @@ import Authentication from "../models/Authentication";
 
 export const signUp = async (req: Request, res: Response) => {
 
-  const user = new User(
-    req.body.email,
-    req.body.firstName,
-    req.body.lastName,
-    req.body.birthDate,
-    req.body.phoneNumber,
-    req.body.isPhoneNumberVerified,
-    req.body.country,
-  );
-
-  await Authentication.signUp(user);
-
   try {
+
+    const user = new User(
+      req.body.email,
+      req.body.firstName,
+      req.body.lastName,
+      req.body.birthDate,
+      req.body.phoneNumber,
+      req.body.isPhoneNumberVerified,
+      req.body.country,
+    );
+
+    await Authentication.signUp(user);
+
     if (Authentication.doesUserExist) {
-      res.status(200).send({code: 200, message: 'User successfully signed up', user: user});
+      res.status(200).send({code: 200, message: 'User successfully signed UP', user: user});
     } else {
       res.status(500).send();
     }
@@ -28,7 +29,18 @@ export const signUp = async (req: Request, res: Response) => {
 }
 
 export const signIn = async (req: Request, res: Response) => {
-  res.send('BAR Sign IN the user');
+  try {
+
+    const user = await Authentication.signIn(req.body.email, req.body.phoneNumber);
+
+    if (Authentication.isUserSignedIn) {
+      res.status(200).send({code: 200, message: 'User successfully signed IN', user: user});
+    } else {
+      res.status(500).send();
+    }
+  } catch(error) {
+    res.send({code: 500, message: error.message});
+  }
 }
 
 module.exports.signUp = signUp;
