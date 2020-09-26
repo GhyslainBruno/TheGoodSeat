@@ -18,7 +18,7 @@ module.exports.routes = {
   * `assets` directory)                                                      *
   *                                                                          *
   ***************************************************************************/
-  '/signup': 'UserController.signUp',
+  'POST /signup': 'UserController.signUp',
   '/signin': 'UserController.signIn'
 
 
