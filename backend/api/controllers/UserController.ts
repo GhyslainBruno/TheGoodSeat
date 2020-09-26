@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 
-const signUp = async (req: Request, res: Response) => {
+export const signUp = async (req: Request, res: Response) => {
   res.send('Sign UP the user');
 }
 
-const signIn = async (req: Request, res: Response) => {
+export const signIn = async (req: Request, res: Response) => {
   res.send('Sign IN the user');
 }
 
