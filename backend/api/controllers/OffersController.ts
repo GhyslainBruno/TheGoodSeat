@@ -1,8 +1,5 @@
 import { Request, Response } from "express";
-//TODO: understand why types are not working correctly with got lib
-// import got, {Options} from "got";
 import Offer from "../models/Offer";
-const got = require("got");
 
 export const search = async (req: Request, res: Response) => {
 
@@ -14,33 +11,13 @@ export const search = async (req: Request, res: Response) => {
       const bearer = bearerHeader.split(' ');
       const bearerToken = bearer[1];
 
-      // TODO: set coordinates dynamically
-      const options = {
-        headers: {
-          'usertoken': bearerToken,
-          'x-api-key': '8k5jqE35yN3yVUaxFP824FOq8oJeLyr3bVyiZmig'
-        },
-        responseType: 'json',
-        body: JSON.stringify({
-          'startLatitude': 48.870377,
-          'startLongitude': 2.370615,
-          'endLatitude': 48.882719,
-          'endLongitude': 2.322451
-        })
-      };
-
-      const result = await got.post('https://staging.api.external.thegoodseat.fr/getalloffers', options);
-
-      const offers: Offer[] = [];
-
-      // TODO: YUCK !
-      result.body['body'].forEach(offer => {
-        offers.push(new Offer(
-          offer.price,
-          offer.arrivalTime,
-          offer.currency
-        ))
-      })
+      const offers = await Offer.searchOffers(
+        bearerToken,
+        req.query.startLatitude as unknown as number,
+        req.query.startLongitude as unknown as number,
+        req.query.endLatitude as unknown as number,
+        req.query.endLongitude as unknown as number
+      );
 
       res.send({code: 200, offers: offers});
     } else {
@@ -51,7 +28,7 @@ export const search = async (req: Request, res: Response) => {
 
   } catch(error) {
     // TODO: explicit the error
-    res.sendStatus(500);
+    res.status(500).send({code: 500, message: error.message});
   }
 
 }
