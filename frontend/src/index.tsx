@@ -10,6 +10,8 @@ import {Router} from "react-router-dom";
 import { createBrowserHistory } from "history";
 export const history = createBrowserHistory();
 
+console.log('No need to worry about what\'s in there, trust me ;-)');
+
 // @ts-ignore
 window.store = store;
 
