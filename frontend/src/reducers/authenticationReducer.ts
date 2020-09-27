@@ -6,12 +6,12 @@ import {
     USER_SIGNIN_REJECTED,
     USER_SIGNIN_REQUESTED
 } from "../constants/actionTypes/authenticationActionTypes";
+import {openSnackBar} from "../actions/snackBarActions";
 
 const initialState = {
     user: null,
     userLoading: false,
-    signInError: false,
-    signUpError: false,
+    error: false,
     message: ''
 }
 
@@ -35,8 +35,8 @@ export default function authenticationReducer (state = initialState, action: any
             return Object.assign({}, state, {
                 user: null,
                 userLoading: false,
-                signUpError: true,
-                errorMessage: action.payload.message
+                error: true,
+                message: action.payload
             });
 
         case USER_SIGNIN_REQUESTED:
@@ -55,7 +55,7 @@ export default function authenticationReducer (state = initialState, action: any
             return Object.assign({}, state, {
                 user: null,
                 userLoading: false,
-                signInError: true,
+                error: true,
                 message: action.payload
             });
 

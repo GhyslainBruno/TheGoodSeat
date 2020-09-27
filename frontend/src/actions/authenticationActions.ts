@@ -7,6 +7,7 @@ import {
     USER_SIGNUP_REQUESTED
 } from "../constants/actionTypes/authenticationActionTypes";
 import ky from 'ky';
+import {openSnackBar} from "./snackBarActions";
 
 interface SignInApiReturnObject {
     user: object
@@ -37,11 +38,14 @@ export const userSignIn = (email: string, phoneNumber: string) => {
             const result = await ky.post('/signin', options).json() as SignInApiReturnObject
 
             if (result.user) {
-                return dispatch(userSignInFulfilledAction(result.user))
+                dispatch(openSnackBar('User signed in', 'success'))
+                dispatch(userSignInFulfilledAction(result.user))
             }
 
         } catch(error) {
-            return dispatch(userSignInRejectedAction('Error during sign in'))
+            //TODO: weird to do such a thing...
+            dispatch(openSnackBar('Error during sign in', 'error'))
+            dispatch(userSignInRejectedAction('Error during sign in'))
         }
     }
 }
@@ -79,3 +83,5 @@ function userSignInFulfilledAction(user: any) {
         payload: user
     };
 }
+
+

@@ -1,68 +1,100 @@
 import React, {useState} from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom';
 import './App.css';
-import {Button, CircularProgress, TextField, Snackbar} from '@material-ui/core';
+import {
+    Button,
+    CircularProgress,
+    TextField,
+    Snackbar,
+    AppBar,
+    Toolbar,
+    Typography
+} from '@material-ui/core';
 import { useDispatch, useSelector } from "react-redux";
 import { userSignIn, userSignUp } from "./actions/authenticationActions";
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
+import {closeSnackBar} from "./actions/snackBarActions";
+import {SignIn} from "./components/SignIn";
+import {SignUp} from "./components/SignUp";
+import {SearchOffers} from "./components/SearchOffers";
+import {HomePage} from "./components/HomePage";
 
-interface ReduxState {
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
+export interface ReduxState {
     authenticationReducer: {
         user: {
             email: string,
             phoneNumber: string
         },
         userLoading: boolean,
-        signInError: boolean,
+        error: boolean,
         message: string
+    },
+    snackBar: {
+        open: boolean,
+        message: string,
+        severity: "success" | "info" | "warning" | "error" | undefined
     }
 }
 
 export const App = () => {
 
-    const [email, setEmail] = useState('test@gmail.com');
-    const [phoneNumber, setPhoneNumber] = useState('+33667182298');
-
     const user = useSelector((state: ReduxState) => state.authenticationReducer.user);
     const userLoading = useSelector((state: ReduxState) => state.authenticationReducer.userLoading);
-    const signInError = useSelector((state: ReduxState) => state.authenticationReducer.signInError);
-    const message = useSelector((state: ReduxState) => state.authenticationReducer.message);
+    const openSnackBar = useSelector((state: ReduxState) => state.snackBar.open);
+    const message = useSelector((state: ReduxState) => state.snackBar.message);
+    const severity = useSelector((state: ReduxState) => state.snackBar.severity);
+
     const dispatch = useDispatch();
 
-    const onSubmit = (event: any) => {
-        dispatch(userSignIn(email, phoneNumber));
-        event.preventDefault();
-    }
-
     return (
-        <main>
-            <div>User signed in : { user ? user.email : null }</div>
 
-            {
-                userLoading ? <CircularProgress /> : null
-            }
+        <Router>
+            <main>
 
-            <Button onClick={() => dispatch(userSignUp('foobar@gmail.com'))}>User Sign Up</Button>
+                <AppBar position="static">
+                    <Toolbar>
+                        <Typography style={{flex: '1'}} variant="h6">
+                            The Good Seat
+                        </Typography>
+                        <div>
+                            { user ? user.email : null }
+                        </div>
+                        <div>
+                            { userLoading ? <CircularProgress color="secondary"/> : null }
+                        </div>
+                    </Toolbar>
+                </AppBar>
 
-            <Snackbar
-                open={signInError}
-                message={message}
-            />
+                <Button onClick={() => dispatch(userSignUp('foobar@gmail.com'))}>User Sign Up</Button>
 
-            <form onSubmit={onSubmit}>
+                {
+                    user ?
+                        <div>
+                            <Route exact path='/offers' render={() =><SearchOffers/>}/>
+                        </div>
+                        :
+                        <div>
+                            <Route exact path='/signin' render={() =><SignIn/>}/>
+                            <Route exact path='/signup' render={() =><SignUp/>}/>
+                            <Route exact path='/' render={() =><HomePage/>}/>
+                        </div>
+                }
 
-                <TextField
-                    type="email"
-                    value={email}
-                    onChange={event => setEmail(event.target.value)}
-                />
+                <Snackbar
+                    autoHideDuration={3000}
+                    open={openSnackBar}
+                    onClose={() => {dispatch(closeSnackBar())}}
+                >
+                    <Alert severity={severity}>
+                        {message}
+                    </Alert>
+                </Snackbar>
 
-                <TextField
-                    type="string"
-                    value={phoneNumber}
-                    onChange={event => setPhoneNumber(event.target.value)}
-                />
-
-                <Button type="submit">Sign In</Button>
-            </form>
-        </main>
+            </main>
+        </Router>
     );
 }
