@@ -3,21 +3,28 @@ import './App.css';
 import {Button, CircularProgress, TextField, Snackbar} from '@material-ui/core';
 import { useDispatch, useSelector } from "react-redux";
 import { userSignIn, userSignUp } from "./actions/authenticationActions";
-import {sign} from "crypto";
+
+interface ReduxState {
+    authenticationReducer: {
+        user: {
+            email: string,
+            phoneNumber: string
+        },
+        userLoading: boolean,
+        signInError: boolean,
+        message: string
+    }
+}
 
 export const App = () => {
 
     const [email, setEmail] = useState('test@gmail.com');
     const [phoneNumber, setPhoneNumber] = useState('+33667182298');
 
-    // @ts-ignore
-    const user = useSelector(state => state.authenticationReducer.user);
-    // @ts-ignore
-    const userLoading = useSelector(state => state.authenticationReducer.userLoading);
-    // @ts-ignore
-    const signInError = useSelector(state => state.authenticationReducer.signInError);
-    // @ts-ignore
-    const message = useSelector(state => state.authenticationReducer.message);
+    const user = useSelector((state: ReduxState) => state.authenticationReducer.user);
+    const userLoading = useSelector((state: ReduxState) => state.authenticationReducer.userLoading);
+    const signInError = useSelector((state: ReduxState) => state.authenticationReducer.signInError);
+    const message = useSelector((state: ReduxState) => state.authenticationReducer.message);
     const dispatch = useDispatch();
 
     const onSubmit = (event: any) => {

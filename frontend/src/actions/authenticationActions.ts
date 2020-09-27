@@ -8,6 +8,10 @@ import {
 } from "../constants/actionTypes/authenticationActionTypes";
 import ky from 'ky';
 
+interface SignInApiReturnObject {
+    user: object
+}
+
 //TODO : find the good type for dispatch
 export const userSignUp = (user: any) => {
     return (dispatch: any) => {
@@ -30,11 +34,9 @@ export const userSignIn = (email: string, phoneNumber: string) => {
                 }
             };
 
-            const result = await ky.post('/signin', options).json();
+            const result = await ky.post('/signin', options).json() as SignInApiReturnObject
 
-            // @ts-ignore
             if (result.user) {
-                // @ts-ignore
                 return dispatch(userSignInFulfilledAction(result.user))
             }
 
