@@ -3,8 +3,6 @@ import {Paper} from "@material-ui/core";
 
 export const Offer = (props: any) => {
 
-    console.log(props)
-
     return (
 
         <Paper elevation={1} className="offerCard">
