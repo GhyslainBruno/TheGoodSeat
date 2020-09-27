@@ -36,3 +36,19 @@
     transform: rotate(360deg);
   }
 }
+
+.signInCard {
+  position: relative;
+  top: 50%;
+  transform: translate(0%, 20%);
+  margin: 5px;
+  padding: 20px;
+  background-color: #d2d2d2 !important;
+}
+@media screen and (max-width: 320px) {
+  .signInCard {
+    width: 100%; } }
+@media screen and (min-width: 840px) {
+  .signInCard {
+    width: 50%;
+    margin: 0 auto; } }

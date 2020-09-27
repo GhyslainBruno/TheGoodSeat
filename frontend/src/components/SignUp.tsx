@@ -1,11 +1,12 @@
 import React, {useState} from "react";
-import {Redirect} from 'react-router-dom';
-import {Button, TextField} from "@material-ui/core";
+import {Button, Paper, TextField} from "@material-ui/core";
 import {userSignUp} from "../actions/authenticationActions";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
 import {ToggleButton} from "@material-ui/lab";
 // @ts-ignore
 import CheckIcon from '@material-ui/icons/Check';
+import {Link} from "react-router-dom";
+import {SIGN_IN, SIGN_UP} from "../constants/routes";
 
 export const SignUp = (props: any) => {
 
@@ -26,68 +27,80 @@ export const SignUp = (props: any) => {
 
     return (
 
-        <form onSubmit={onSubmit}>
+        <Paper elevation={1} className="signInCard">
+            <form onSubmit={onSubmit}>
 
-            <div>
-                <TextField
-                    type="email"
-                    value={email}
-                    onChange={event => setEmail(event.target.value)}
-                />
-            </div>
+                <div>
+                    <TextField
+                        type="email"
+                        label={'Email'}
+                        value={email}
+                        onChange={event => setEmail(event.target.value)}
+                    />
+                </div>
 
-            <div>
-                <TextField
-                    type="string"
-                    value={firstName}
-                    onChange={event => setFirstName(event.target.value)}
-                />
-            </div>
+                <div>
+                    <TextField
+                        type="string"
+                        label={'First Name'}
+                        value={firstName}
+                        onChange={event => setFirstName(event.target.value)}
+                    />
+                </div>
 
-            <div>
-                <TextField
-                    type="string"
-                    value={lastName}
-                    onChange={event => setLastName(event.target.value)}
-                />
-            </div>
+                <div>
+                    <TextField
+                        type="string"
+                        label={'Last Name'}
+                        value={lastName}
+                        onChange={event => setLastName(event.target.value)}
+                    />
+                </div>
 
-            <div>
-                <TextField
-                    type="string"
-                    value={birthDate}
-                    onChange={event => setBirthDate(event.target.value)}
-                />
-            </div>
+                <div>
+                    <TextField
+                        type="string"
+                        label={'Birth Date'}
+                        value={birthDate}
+                        onChange={event => setBirthDate(event.target.value)}
+                    />
+                </div>
 
-            <div>
-                <TextField
-                    type="string"
-                    value={phoneNumber}
-                    onChange={event => setPhoneNumber(event.target.value)}
-                />
-            </div>
+                <div>
+                    <TextField
+                        type="string"
+                        label={'Phone Number'}
+                        value={phoneNumber}
+                        onChange={event => setPhoneNumber(event.target.value)}
+                    />
+                </div>
 
-            <div>
-                <ToggleButton
-                    value="check"
-                    selected={isPhoneNumberVerified}
-                    onChange={() => setIsPhoneNumberVerified(!isPhoneNumberVerified)}
-                >
-                    <CheckIcon />
-                </ToggleButton>
+                <div>
+                    Is Phone Number Verified :
+                    <ToggleButton
+                        value="check"
+                        selected={isPhoneNumberVerified}
+                        onChange={() => setIsPhoneNumberVerified(!isPhoneNumberVerified)}
+                    >
+                        <CheckIcon />
+                    </ToggleButton>
 
-            </div>
+                </div>
 
-            <div>
-                <TextField
-                    type="string"
-                    value={country}
-                    onChange={event => setCountry(event.target.value)}
-                />
-            </div>
+                <div>
+                    <TextField
+                        type="string"
+                        label={'Country'}
+                        value={country}
+                        onChange={event => setCountry(event.target.value)}
+                    />
+                </div>
 
-            <Button type="submit">Sign Up</Button>
-        </form>
+                <Button type="submit">Sign Up</Button>
+                <div>
+                    <Link to={SIGN_IN}>Already have an account ? Sign In</Link>
+                </div>
+            </form>
+        </Paper>
     )
 }
