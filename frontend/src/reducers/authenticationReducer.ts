@@ -6,13 +6,12 @@ import {
     USER_SIGNIN_REJECTED,
     USER_SIGNIN_REQUESTED
 } from "../constants/actionTypes/authenticationActionTypes";
-import {openSnackBar} from "../actions/snackBarActions";
 
 const initialState = {
     user: null,
     userLoading: false,
     error: false,
-    message: ''
+    message: '',
 }
 
 //TODO: find the right type for action
@@ -27,8 +26,7 @@ export default function authenticationReducer (state = initialState, action: any
 
         case USER_SIGNUP_FULFILLED :
             return Object.assign({}, state, {
-                user: action.payload,
-                userLoading: false
+                userLoading: false,
             });
 
         case USER_SIGNUP_REJECTED:

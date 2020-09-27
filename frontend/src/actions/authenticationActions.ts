@@ -8,16 +8,45 @@ import {
 } from "../constants/actionTypes/authenticationActionTypes";
 import ky from 'ky';
 import {openSnackBar} from "./snackBarActions";
+import {history} from '../index';
 
-interface SignInApiReturnObject {
+interface AuthenticationApiReturnObject {
+    code: number,
+    message: string,
     user: object
 }
 
 //TODO : find the good type for dispatch
-export const userSignUp = (user: any) => {
-    return (dispatch: any) => {
-        dispatch(userSignUpRequestedAction());
-        return 'HERE TO MAKE ASYNC CALL TO SIGNUP';
+export const userSignUp = (email: string, firstName: string, lastName: string, birthDate: string, phoneNumber: string, isPhoneNumberVerified: boolean, country: string) => {
+    return async (dispatch: any) => {
+        try {
+            dispatch(userSignUpRequestedAction());
+
+            const options = {
+                responseType: 'json',
+                json: {
+                    'email': email,
+                    'firstName': firstName,
+                    'lastName': lastName,
+                    'birthDate': birthDate,
+                    'phoneNumber': phoneNumber,
+                    'isPhoneNumberVerified': isPhoneNumberVerified,
+                    'country': country
+                }
+            };
+
+            const result = await ky.post('/signup', options).json() as AuthenticationApiReturnObject
+
+            if (result.user) {
+                dispatch(openSnackBar('User signed up', 'success'))
+                dispatch(userSignUpFulfilledAction());
+                history.push('/signin');
+            }
+        } catch(error) {
+            //TODO: weird to do such a thing...
+            dispatch(openSnackBar('Error during sign up', 'error'))
+            dispatch(userSignUpRejectedAction('Error during sign up'))
+        }
     }
 }
 
@@ -35,11 +64,12 @@ export const userSignIn = (email: string, phoneNumber: string) => {
                 }
             };
 
-            const result = await ky.post('/signin', options).json() as SignInApiReturnObject
+            const result = await ky.post('/signin', options).json() as AuthenticationApiReturnObject
 
             if (result.user) {
                 dispatch(openSnackBar('User signed in', 'success'))
                 dispatch(userSignInFulfilledAction(result.user))
+                history.push('/offers');
             }
 
         } catch(error) {
@@ -55,9 +85,10 @@ function userSignUpRequestedAction() {
         type: USER_SIGNUP_REQUESTED
     };
 }
-function userSignUpRejectedAction() {
+function userSignUpRejectedAction(message: string) {
     return {
-        type: USER_SIGNUP_REJECTED
+        type: USER_SIGNUP_REJECTED,
+        payload: message
     };
 }
 function userSignUpFulfilledAction() {

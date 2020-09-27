@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router-dom";
-import {SIGN_IN} from "../constants/routes";
+import {SIGN_IN, SIGN_UP} from "../constants/routes";
 
 export const HomePage = () => {
     return (
@@ -10,7 +10,7 @@ export const HomePage = () => {
                 <Link style={{color: '#f98e8d'}} to={SIGN_IN}>Sign In</Link>
             </div>
             <div>
-                <Link style={{color: '#f98e8d'}} to={SIGN_IN}>Sign Up</Link>
+                <Link style={{color: '#f98e8d'}} to={SIGN_UP}>Sign Up</Link>
             </div>
         </div>
     )

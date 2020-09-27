@@ -21,10 +21,10 @@ export const signUp = async (req: Request, res: Response) => {
     if (Authentication.doesUserExist) {
       res.status(200).send({code: 200, message: 'User successfully signed UP', user: user});
     } else {
-      res.status(500).send();
+      res.status(401).send();
     }
   } catch(error) {
-    res.send({code: 500, message: error.message});
+    res.status(400).send({code: 400, message: error.message});
   }
 }
 
