@@ -6,9 +6,9 @@ import {ToggleButton} from "@material-ui/lab";
 // @ts-ignore
 import CheckIcon from '@material-ui/icons/Check';
 import {Link} from "react-router-dom";
-import {SIGN_IN, SIGN_UP} from "../constants/routes";
+import {SIGN_IN} from "../constants/routes";
 
-export const SignUp = (props: any) => {
+export const SignUp = () => {
 
     const [email, setEmail] = useState('test@gmail.com');
     const [firstName, setFirstName] = useState('Kim');

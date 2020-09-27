@@ -27,6 +27,10 @@ export interface ReduxState {
         isUserSignedUp: boolean,
         isUserSignedIn: boolean
     },
+    offersReducer: {
+        offers: [],
+        searchLoading: boolean
+    },
     snackBar: {
         open: boolean,
         message: string,
@@ -67,6 +71,7 @@ const App = () => {
                         <div>
                             <Route exact path='/' render={() =><Redirect to="/offers"/>}/>
                             <Route exact path='/signin' render={() =><SignIn/>}/>
+                            <Route exact path='/signup' render={() =><SignUp/>}/>
                             <Route exact path='/offers' render={() =><SearchOffers/>}/>
                         </div>
                         :

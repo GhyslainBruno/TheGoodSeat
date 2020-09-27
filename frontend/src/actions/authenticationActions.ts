@@ -80,6 +80,10 @@ export const userSignIn = (email: string, phoneNumber: string) => {
     }
 }
 
+/**
+ * Action creators
+ */
+
 function userSignUpRequestedAction() {
     return {
         type: USER_SIGNUP_REQUESTED
@@ -108,6 +112,8 @@ function userSignInRejectedAction(message: string) {
         payload: message
     };
 }
+
+//TODO: should use a User class --> don't have time to do so
 function userSignInFulfilledAction(user: any) {
     return {
         type: USER_SIGNIN_FULFILLED,

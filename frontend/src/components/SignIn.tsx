@@ -3,7 +3,7 @@ import {Button, TextField, Paper} from "@material-ui/core";
 import {useDispatch} from "react-redux";
 import {userSignIn} from "../actions/authenticationActions";
 import {Link} from "react-router-dom";
-import {SIGN_IN, SIGN_UP} from "../constants/routes";
+import {SIGN_UP} from "../constants/routes";
 
 export const SignIn = () => {
 

@@ -52,3 +52,21 @@
   .signInCard {
     width: 50%;
     margin: 0 auto; } }
+
+.offerCard {
+  transform: translate(0%, 70%);
+  margin: 0 auto;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f3f1f1 !important;
+}
+@media screen and (max-width: 320px) {
+  .offerCard {
+    width: 100%; } }
+@media screen and (min-width: 840px) {
+  .offerCard {
+    width: 50%;
+
+  }
+}

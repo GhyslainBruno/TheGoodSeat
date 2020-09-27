@@ -12,12 +12,15 @@ export const openSnackBar = (message: string, severity: string) => {
     }
 }
 
+/**
+ * Action creators
+ */
+
 const closeSnackBarAction = () => {
     return {
         type: CLOSE_SNACK_BAR
     }
 }
-
 const openSnackBarAction = (message: string, severity: string) => {
     return {
         type: OPEN_SNACK_BAR,
@@ -25,7 +28,5 @@ const openSnackBarAction = (message: string, severity: string) => {
             message: message,
             severity: severity
         }
-
-
     }
 }
